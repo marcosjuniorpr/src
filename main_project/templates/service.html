@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <section id="page-section">
+    	<div class="container">
+    	  <div class="row">
+    	  	 <div class="col-sm-12">
+            <div class="col-sm-6">
+    	  	   <p id="page-title-name">SERVIÇOS</p>
+            </div> 
+            <div class="col-sm-6" id="page-site-link">
+             <p><span id="home-page-link"><a href="{% url 'main_project:index' %}">Início</a></span><span id="page-bar">/</span><span id="same-page-link">SERVIÇOS</span></p>
+            </div> 
+    	  	</div>  
+    	  </div>
+    	</div>
+    </section><!--       row Section     -->
+
+    <section id="page-article">
+      <div class="container" id="page-article-width">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-8">
+             <div id="article-boxes">
+                <p id="page-lead-title">INVENTÁRIO DE ESTOQUE</p>
+                <p id="page-sub-title">Contagem Garantida</p>
+                <p id="page-main-des">A equipe da MJ Auditoria possui experiência em inventários de estoque, executando diariamente contagens em diferentes setores, como: Lojas de Conveniências, Supermercados, Lojas de Vestuário, Calçados, Farmácias…
+                Com equipamentos de alta qualidade e software desenvolvido internamente,
+                desenvolvemos uma metodologia que garante a contagem de todos os itens.
+                Preparação, execução, finalização, análise e assessoria
+                <br/>
+                Auxiliamos o cliente nos processos de administração do seu estoque. A realização do inventário é capaz de medir o tamanho do “furo” de sua empresa, porém o que você faz com os números é o que fará a diferença.
+                </p>
+                <br/>
+                <p id="page-sub-title">Vantagens do Inventário Terceirizado</p>
+                <p id="page-main-des">
+                   Economia de tempo;<br/>
+                   Confiabilidade nos dados coletados;<br/>
+                   Inventário organizado e rápido;<br/>
+                   Integração com o seu software de gestão;<br/>
+                   Equipe sem vínculo com empregados;<br/>
+                   Identificação de códigos não cadastrados no software de gestão;<br/>
+                   Sem horas extras e desgaste dos seus empregados;<br/>
+                   Metodologia de contagem e relatórios garantindo que todo seu estoque é auditado;<br/>
+                   Resultado rápido.
+                </p>
+              </div><!--     article-one      --> 
+              <div id="article-boxes">
+                <p id="page-lead-title">LOCAÇÃO DE COLETORES</p>
+                <p id="page-sub-title">Venda, Locação e Manutenção de Coletores para Inventário “batch”</p>
+                <p id="page-main-des">Trabalhamos com venda das marcas Zebra (Motorola) e Intermec.
+                <br/>
+                Locamos coletores e infra-estrutura Zebra/Motorola por diárias ou mensalidade com contrato.
+                Atenção: com o investimento em um coletor novo baseado em Dólares, é possível alugar da MJ o mesmo coletor por mais de 4 anos. Fornecemos suporte imediato, manutenção com custo somente de peças, troca de equipamentos por desgaste 
+                <br/>
+                natural e substituição do coletor em manutenção para não paralisar suas operações. Dispomos de coletores com sistema próprio e de fácil manuseio para inventários de estoque.
+                Também disponibilizamos o serviço de Acompanhamento de Inventário.
+                Realizamos a manutenção dos coletores, com a configuração e troca de peças sem necessidade de envio ao fabricante.
+                </p>
+              </div><!--     article-one      -->  
+              <div id="article-boxes">
+                <p id="page-lead-title">MONTAGEM DE LAYOUT</p>
+                <p id="page-main-des">Desenvolvimento e montagem de layout de lojas personalizado de acordo com seu público e demanda. 
+                   Com mais de 10 anos de experiência na área trabalhando para grandes redes varejistas no setores de conveniência, farmácias, materiais de construção, supermercados entre outros segmentos de varejo. 
+                   Treinamentos para equipes de Gerenciamento de Categoria e Merchandising.
+                </p>
+              </div><!--     article-one      -->
+            </div>
+            <div class="col-sm-4" id="categorias-boxes">
+              <p id="categorias-title">Our Recent Blogs</p>
+              <ul id="categorias-list">
+                {% for blog in blogs %}
+                 <li><i class="far fa-hand-point-right"></i><a href="{% url 'main_project:single_blog' blog.id %}" id="categorias-name">{{ blog.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block footer_static_js_css %}
+      <script type="text/javascript">
+      $('.service-active').addClass('active-page')
+    </script>
+{% endblock %}

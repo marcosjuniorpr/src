@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <section id="page-section">
+    	<div class="container">
+    	  <div class="row">
+    	  	 <div class="col-sm-12">
+            <div class="col-sm-6">
+    	  	   <p id="page-title-name">Arquivo de categoriasNotícias</p>
+            </div> 
+            <div class="col-sm-6" id="page-site-link">
+             <p><span id="home-page-link"><a href="{% url 'main_project:index' %}">Início</a></span><span id="page-bar">/</span><span id="same-page-link">  Arquivo por categoria "Notícias"</span></p>
+            </div> 
+    	  	</div>  
+    	  </div>
+    	</div>
+    </section><!--       row Section     -->
+
+    <section id="page-article">
+      <div class="container" id="page-article-width">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-8">
+                <div id="category-person-box">
+                   <span><img src="{% static 'main_static/img/comment-user.png' %}" id="category-img"></span>
+                   <span id="category-name">{{ blog.user }}</span>
+                </div><!--    categorias title              -->
+                <div id="category-info-box">
+                  <span id="category-date">{{ blog.time }}</span>
+                  <!-- <span id="category-comment">1 comentário</span> -->
+                  <!-- <span id="category-title">Cade propõe medidas para reduzir preços dos combustíveis</span>  -->
+                </div><!--    categorias date info              -->
+                <div id="categorias-main-post">
+                   <!-- <img src="{% static 'main_static/img/logo.png' %}" id="categorias-page-img"> -->
+                   <p id="categorias-page-title">{{ blog.title }}</p>
+                   <p id="categorias-page-des">
+                   {{ blog.content|safe }}
+                   <!-- {{ blog.text }} -->
+                   </p>
+                </div>
+            </div>
+           <!--  <div class="col-sm-4" id="categorias-boxes">
+              <p id="categorias-title">Categorias</p>
+              <ul id="categorias-list">
+                 <li><i class="far fa-hand-point-right"></i><a href="#" id="categorias-name">Notícias</a></li>
+              </ul>
+            </div>
+ -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
+
+{% block footer_static_js_css %}
+      <script type="text/javascript">
+      $('.blog-active').addClass('active-page')
+    </script>
+{% endblock %}

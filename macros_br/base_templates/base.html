@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Consultoria MJ</title>
+        <link rel="icon" href="{% static 'main_static/img/logo-small.png' %}" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'main_static/css/style.css' %}" />
+    {% block header_static_js_css %}
+    
+    {% endblock %}
+	</head>
+<body>
+    
+    <section id="main-menu">
+    	<div class="container">
+           <div class="row">
+               <div class="col-sm-2">
+                  <img src="{% static 'main_static/img/logo.png' %}" id="logo-img">
+               </div>
+               <div class="col-sm-10">
+                  <ul id="menu-list">
+                    {% if not request.user.is_authenticated %}
+                      <li id="menu-list-name"><a class="login_sign_up-active" href="{% url 'main_project:sign_in' %}">Login/Singup</a></li>
+                    {% else %}
+                      <li id="menu-list-name">{{ request.user }}<a href="{% url 'main_project:sign_out' %}"> <span style="font-size: 7px">Logout</span></a></li>
+                    {% endif %}
+                  	  <li id="menu-list-name"><a class="blog-active" href="{% url 'main_project:blog' %}">BLOG</a></li>
+                  	  <li id="menu-list-name"><a class="clients-active" href="{% url 'main_project:client' %}">CLIENTES</a></li>
+                  	  <li id="menu-list-name"><a class="about-active" href="{% url 'main_project:about' %}">SOBRE</a></li>
+                  	  <li id="menu-list-name"><a class="service-active" href="{% url 'main_project:service' %}">SERVIÇOS</a></li>
+                      <li id="menu-list-name"><a class="home-active" href="{% url 'main_project:index' %}">HOME</a></li>
+                  </ul>
+               </div>
+           </div>
+    	</div>
+    </section><!--       Main Menu     -->
+
+    <section id="mobile-menu">
+        <div id="mobile-menu-button-box">
+             <span id="mobile-menu-logo"><img src="{% static 'main_static/img/logo.png' %}" id="logo-img"></span>
+             <span id="mobile-menu-button"><i class="fa fa-bars side-menu-bar"></i></span>
+        </div>
+    	<ul id="mobile-menu-list">
+            <a href="{% url 'main_project:index' %}"><li id="mobile-menu-list-name" class="home-active" >HOME</li></a>
+            <a href="{% url 'main_project:service' %}"><li id="mobile-menu-list-name" class="service-active">SERVIÇOS</li></a>
+            <a href="{% url 'main_project:about' %}"><li id="mobile-menu-list-name" class="about-active"> SOBRE</li></a>
+            <a href="{% url 'main_project:client' %}"><li id="mobile-menu-list-name" class="clients-active">CLIENTES</li></a>
+            <a href="{% url 'main_project:blog' %}"><li id="mobile-menu-list-name" class="blog-active">BLOG</li></a>
+            <a href="{% url 'main_project:sign_in' %}"><li id="mobile-menu-list-name" class="login_sign_up-active">Login/Singup</li></a>
+        </ul>
+    </section><!--       Mobile Menu     -->
+
+
+
+{% block content %}
+{% endblock %}
+
+
+
+    <section id="footer-section">
+      <div class="container">
+           <div class="row">
+              <div class="col-sm-3" id="footer-box-part">
+                 <p id="footer-row-title">ABOUT US</p>
+                 <div id="footer-text-box">
+                   <i class="fa fa-map"></i>
+                   <span>Florianópolis - SC - Brasil</span>
+                 </div>
+                  <div id="footer-text-box">
+                   <i class="fa fa-envelope"></i>
+                   <span>consultoriamj.com.br</span>
+                 </div>
+                  <div id="footer-text-box">
+                   <i class="fa fa-phone"></i>
+                   <span>(48) 99914-1275</span>
+                 </div>
+              </div>
+              <div class="col-sm-3" id="footer-box-part">
+                 <p id="footer-row-title" class="link-title">LINKS</p>
+                 <ul id="footer-list">
+                    <li><i class="fa fa-chevron-right"></i><span>HOME</span></li>
+                    <li><i class="fa fa-chevron-right"></i><span>SERVIÇOS</span></li>
+                    <li><i class="fa fa-chevron-right"></i><span>SOBRE</span></li>
+                    <li><i class="fa fa-chevron-right"></i><span>CLIENTES</span></li>
+                    <li><i class="fa fa-chevron-right"></i><span>BLOG</span></li>
+                 </ul>
+              </div>
+              <div class="col-sm-3" id="footer-box-part">
+                 <p id="footer-row-title">Social Media</p>
+                 <ul id="footer-social-list">
+                    <li><a><i class="fab fa-behance"></i></a></li>
+                    <li><a><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a><i class="fab fa-twitter"></i></a></li>
+                 </ul>
+              </div>
+              <div class="col-sm-3" id="footer-box-part">
+                 <p id="footer-row-title">NEWSLETTER</p>
+                 <p id="footer-row-des">Subscribe Our Newsletter get the Important News.</p>
+                 
+              </div>
+           </div>
+      </div>
+     </section>
+
+     <section id="compnay-name">
+         <p>© Copyright - 2018 Consultoria MJ - Developed by MJ</a></p>
+    </section><!-- Footer section -->
+
+</body>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="{% static 'main_static/js/main.js' %}"></script>
+</html>
+
+{% block footer_static_js_css %}
+{% endblock %}

@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header_static_js_css %}
+
+  <style type="text/css">
+      a{
+        text-decoration: none;
+        color: #1ab188;
+        transition: .5s ease;
+      }
+      a:hover {
+        color: #179b77;
+      }
+
+      h1 {
+        text-align: center;
+        color: #ffffff;
+        font-weight: 300;
+        margin: 0 0 40px;
+      }
+
+      label {
+        position: absolute;
+        -webkit-transform: translateY(6px);
+                transform: translateY(6px);
+        left: 13px;
+        color: #adaaaa;
+        letter-spacing: 1px;
+        transition: all 0.25s ease;
+        -webkit-backface-visibility: hidden;
+        pointer-events: none;
+        font-size: 14px;
+        padding-top: 5px;;
+      }
+
+      label.active {
+        -webkit-transform: translateY(50px);
+        transform: translateY(50px);
+        left: 2px;
+        font-size: 13px;
+        margin-top: -18px;
+      }
+      label.active .req {
+        opacity: 0;
+      }
+
+      label.highlight {
+        color: #ffffff;
+      }
+
+      input, textarea {
+        font-size: 22px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 5px 10px;
+        background: none;
+        background-image: none;
+        border: 1px solid #a0b3b0;
+        color: #ffffff;
+        border-radius: 0;
+        transition: border-color .25s ease, box-shadow .25s ease;
+      }
+      input:focus, textarea:focus {
+        outline: 0;
+        border-color: #fa6d4e;;
+      }
+
+      textarea {
+        border: 2px solid #a0b3b0;
+        resize: vertical;
+      }
+
+      .field-wrap {
+        position: relative;
+        margin-bottom: 40px;
+      }
+
+      .top-row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .top-row > div {
+        float: left;
+        width: 48%;
+        margin-right: 4%;
+      }
+      .top-row > div:last-child {
+        margin: 0;
+      }
+
+      .button-block {
+        display: block;
+        width: 100%;
+      }
+
+      .forgot {
+        margin-top: -20px;
+        text-align: right;
+      }
+
+  </style>
+{% endblock %}
+{% block content %}
+    <section id="login-section">
+      <div class="form" id="main-from">
+      
+      <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Sign Up</a></li>
+        <li class="tab"><a class="login_tab" href="#login">Log In</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div id="signup">   
+          <h1>Sign Up for Free</h1>
+          {% if register_form.errors %}
+          
+            {% for field in register_form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger fade in">
+                  <button class="close" data-dismiss="alert">
+                    <!-- × -->
+                  </button>
+                  <i class="fa-fw fa fa-times"></i>
+                  <strong>Error!</strong> {{ error }}
+                </div>
+                  {% endfor %}
+            {% endfor %}
+              {% for error in register_form.non_field_errors %}
+              <div class="alert alert-danger fade in">
+                <button class="close" data-dismiss="alert">
+                  <!-- × -->
+                </button>
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong> {{ error }}
+              </div>
+              {% endfor %}
+          {% endif %}
+          <form method="POST">  
+
+          {% csrf_token %}
+          
+          <div class="top-row" id="login-fild-box">
+            
+            <div class="field-wrap">
+              <label>
+                First Name<span class="req">*</span>
+              </label>
+              <!-- <input type="text" required autocomplete="off" /> -->
+              {{ register_form.first_name }}
+            </div>
+
+
+
+            <div class="field-wrap">
+              <label>
+                Last Name<span class="req">*</span>
+              </label>
+              <!-- <input type="text" required autocomplete="off"/> -->
+              {{ register_form.last_name }}
+            </div>
+          </div>
+
+            <div class="field-wrap" id="login-fild-box">
+              <label>
+                Username<span class="req">*</span>
+              </label>
+              <!-- <input type="text" required autocomplete="off"/> -->
+              {{ register_form.username }}
+            </div>
+        
+
+          <div class="field-wrap" id="login-fild-box">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <!-- <input type="email" required autocomplete="off"/> -->
+            {{ register_form.email }}
+          </div>
+          
+          <div class="field-wrap" id="login-fild-box">
+            <label>
+              Set A Password<span class="req">*</span>
+            </label>
+            <!-- <input type="password" required autocomplete="off"/> -->
+            {{ register_form.password1 }}
+          </div>
+
+          <div class="field-wrap" id="login-fild-box">
+            <label>
+              Re-write Password<span class="req">*</span>
+            </label>
+            <!-- <input type="password" required autocomplete="off"/> -->
+            {{ register_form.password2 }}
+          </div>
+
+          
+          <button name="submit" value="register_form" type="submit" class="button button-block" id="start-button"/>Get Started</button>
+          
+          </form>
+
+        </div>
+        
+        <div id="login">   
+          <h1>Welcome Back!</h1>
+         {% if login_errors %}
+              {% for error in login_errors %}
+              <div class="alert alert-danger fade in">
+                <button class="close" data-dismiss="alert">
+                  <!-- × -->
+                </button>
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong> {{ error }}
+              </div>
+              {% endfor %}
+          {% endif %} 
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="field-wrap">
+            <label>
+              Username<span class="req">*</span>
+            </label>
+            <input name="username" type="text" required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input name="password" type="password" required autocomplete="off"/>
+          </div>
+          
+          <!-- <p class="forgot"><a href="#">Forgot Password?</a></p> -->
+          
+          <button name="submit" value="sign_in_form" type="submit" class="button button-block"  id="start-button"/>Log In</button>
+          
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+    </section><!--       Login section     -->
+
+{% endblock %}
+
+{% block footer_static_js_css %}
+
+      <script type="text/javascript">
+      $('.login_sign_up-active').addClass('active-page')
+    </script>
+
+   <script type="text/javascript">
+   $('document').ready(function(){
+      if ( {{ start_with_login_tab }} == true){
+        console.log('dhukce')
+        $('.login_tab').click()
+        $('.login_tab').trigger( "click" );
+      }
+    })
+     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+  
+  var $this = $(this),
+      label = $this.prev('label');
+
+    if (e.type === 'keyup') {
+      if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.addClass('active highlight');
+        }
+    } else if (e.type === 'blur') {
+      if( $this.val() === '' ) {
+        label.removeClass('active highlight'); 
+      } else {
+        label.removeClass('highlight');   
+      }   
+    } else if (e.type === 'focus') {
+      
+      if( $this.val() === '' ) {
+        label.removeClass('highlight'); 
+      } 
+      else if( $this.val() !== '' ) {
+        label.addClass('highlight');
+      }
+    }
+
+});
+
+$('.tab a').on('click', function (e) {
+  
+  e.preventDefault();
+  
+  $(this).parent().addClass('active');
+  $(this).parent().siblings().removeClass('active');
+  
+  target = $(this).attr('href');
+
+  $('.tab-content > div').not(target).hide();
+  
+  $(target).fadeIn(600);
+  
+});
+   </script>
+{% endblock %}

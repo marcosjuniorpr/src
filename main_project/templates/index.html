@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <section id="contact-from-section">
+      <div class="container">
+         <div class="row">
+             <div class="col-sm-12">
+                <div class="col-sm-2">
+                </div><!--          col-sm-2     -->
+                <div class="col-sm-8" id="contact-from-box">
+                   <div class="col-sm-2 col-xs-0">
+                   </div><!--          col-sm-2     -->
+                   <form class="contact_form" method="POST">
+                   {% csrf_token %}
+                     <div class="col-sm-8 col-xs-10">
+                         <p id="contact-main-title">CONTACT FROM</p>
+                         <div>
+                              <p id="contact-from-name">Full Name</p>
+                              <input type="" max="100" name="input_fullname" id="contact-from-input">
+                         </div>
+                         <div>
+                              <p id="contact-from-name">Email</p>
+                              <input type="email"  max="100" name="input_email" id="contact-from-input">
+                         </div>
+                         <div>
+                              <p id="contact-from-name">Subject</p>
+                              <input type="" max="200" name="input_subject" id="contact-from-input">
+                         </div>
+                         <div>
+                              <p id="contact-from-name">Message</p>
+                              <textarea class="form-control"  max="1000" rows="5" name="input_message" id="comment" id="contact-from-input"></textarea>
+                         </div>
+                         <div>
+                             <button class="btn">Submit</button>
+                         </div>
+                      </div><!--          col-sm-8     --> 
+                    </form>
+                    <div class="col-sm-2 col-xs-2">
+                       <i class="fas fa-times"></i>
+                   </div><!--          col-sm-2     -->  
+                </div><!--          col-sm-8     -->
+                <div class="col-sm-2">
+                </div><!--          col-sm-2     -->
+             </div>
+         </div>
+      </div>
+    </section><!--       Contact from    -->
+
+    <section id="top-section">
+    	<div class="container">
+    	  <div class="row">
+    	  	 <div class="col-sm-12">
+    	  	   <div id="top-textbox">
+                <div id="wallpaper-rap">
+                   <h1 id="top-textbox-title">Consultoria & Auditoria</h1>
+                   <p id="top-textbox-des">
+                      Contado : (48) 99914-1275 
+                   </p>
+                   <p id="top-textbox-des">
+                      marcos@consultoriamj.com.br Florianópolis - SC - Brasil
+                   </p>
+                   <p id="top-textbox-button">Solicite um orçamento</p>
+                </div>   
+    	  	  </div>
+    	  	</div>  
+    	  </div>
+    	</div>
+    </section><!--       row Section     -->
+
+    <section id="price-section">
+      <div class="container" id="price-container-width">
+        <div class="row">
+           <div class="col-sm-12">
+              <div id="popular-courses-text">
+                    <p id="popular-courses-title">Nossa Missão</p>
+                    <hr id="popular-courses-line">
+                    <p id="popular-courses-des">Somos uma empresa que tem por objetivo ajudar nossos clientes a ter sucesso no controle de estoque da sua empresa. Com equipe experiente na área e equipamentos de última geração com softwares de desenvolvimento próprio, oferecemos serviços de qualidade com cases de sucessos comprovados.</p>
+                </div>
+              <a href="{% url 'main_project:service' %}">  
+              <div class="col-sm-3" id="price-box">
+                <div id="price-box-bottom">
+                   <i class="fas fa-boxes" id="section-icon"></i>
+                   <p id="price-bottom-des">INVENTÁRIO DE ESTOQUE</p>
+                  <p id="section-des">Contagem de estoque feita com agilidade e qualidade, não afetando a rotina diária da sua empresa.</p>
+                </div>
+              </div>
+              </a>
+              <a href="{% url 'main_project:service' %}"> 
+              <div class="col-sm-3" id="price-box">
+                <div id="price-box-bottom">
+                   <i class="fas fa-store-alt" id="section-icon"></i>
+                   <p id="price-bottom-des">MONTAGEM DE LAYOUT</p>
+                  <p id="section-des">Montagem de lojas e layouts personalizados visando melhor experiência de compras para seus clientes. </p>
+                </div> 
+              </div>
+              </a>
+              <a href="{% url 'main_project:service' %}"> 
+              <div class="col-sm-3" id="price-box"> 
+                <div id="price-box-bottom">
+                   <i class="fas fa-database" id="section-icon"></i>
+                   <p id="price-bottom-des">LOCAÇÃO DE COLETORES</p>
+                  <p id="section-des">Venda e locação de coletores com software embutido e personalizado para sua empresa.</p>
+                </div>
+              </div>
+              </a>
+              <a href="{% url 'main_project:service' %}"> 
+              <div class="col-sm-3" id="price-box"> 
+                <div id="price-box-bottom">
+                   <i class="fas fa-graduation-cap" id="section-icon"></i>
+                   <p id="price-bottom-des">TREINAMENTOS</p>
+                  <p id="section-des">Treinamentos para líderes e equipes para o bom atendimento e rendimento no local de trabalho. </p>
+                </div>
+              </div>
+              </a>
+           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="our-client-section">
+      <div class="container" id="our-client-width">
+         <div class="row">
+            <div class="col-sm-12">
+              <p id="client-title">Clientes</p>
+              <hr id="popular-courses-line">
+              <div class="col-sm-3 col-xs-6">
+                 <img src="{% static 'main_static/img/celularcenter.png' %}" id="client-img">
+                 <p id="client-name">Celular Center</p>
+              </div>
+              <div class="col-sm-3 col-xs-6">
+                 <img src="{% static 'main_static/img/client1.png' %}" id="client-img">
+                 <p id="client-name">Postos Klemtz</p>
+              </div>
+              <div class="col-sm-3 col-xs-6">
+                 <img src="{% static 'main_static/img/celularshop.jpg' %}" id="client-img">
+                 <p id="client-name">Celular Shop</p>
+              </div>
+              <div class="col-sm-3 col-xs-6">
+                 <img src="{% static 'main_static/img/bigposto.png' %}" id="client-img">
+                 <p id="client-name">Big Posto</p>
+              </div>
+              <div class="col-sm-3 col-xs-6">
+                 <img src="{% static 'main_static/img/bigposto.png' %}" id="client-img">
+                 <p id="client-name">Big Posto</p>
+              </div>
+              
+            </div>
+         </div>
+      </div>
+    </section><!-- our client -->
+{% endblock %}
+
+{% block footer_static_js_css %}
+      <script type="text/javascript">
+      $('.home-active').addClass('active-page')
+
+
+      //if message success msg to show
+      if ({{ message_success_message_to_show }}){
+        contact_success_message_html_text = '<h5 style="font-family: monospace;">Message Sent Successfully! Will contact you soon</h5>'
+        $('body').prepend(contact_success_message_html_text)
+      }
+      
+    </script>
+
+{% endblock %}

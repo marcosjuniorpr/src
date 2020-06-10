@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <section id="page-section">
+    	<div class="container">
+    	  <div class="row">
+    	  	 <div class="col-sm-12">
+            <div class="col-sm-6">
+    	  	   <p id="page-title-name">SOBRE</p>
+            </div> 
+            <div class="col-sm-6" id="page-site-link">
+             <p><span id="home-page-link"><a href="{% url 'main_project:index' %}">Início</a></span><span id="page-bar">/</span><span id="same-page-link">SERVIÇOS</span></p>
+            </div> 
+    	  	</div>  
+    	  </div>
+    	</div>
+    </section><!--       row Section     -->
+
+    <section id="page-article">
+      <div class="container" id="page-article-width">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-8">
+                <h3>
+                  Somos uma empresa que tem por objetivo ajudar nossos clientes a ter sucesso no controle de estoque da sua empresa. Com equipe experiente na área e equipamentos de última geração com softwares de desenvolvimento próprio, oferecemos serviços de qualidade com cases de sucessos comprovados.
+                </h3>
+            </div>
+            <div class="col-sm-4" id="categorias-boxes">
+              <p id="categorias-title">Blogs Recentes</p>
+              <ul id="categorias-list">
+                {% for blog in blogs %}
+                 <li><i class="far fa-hand-point-right"></i><a href="{% url 'main_project:single_blog' blog.id %}" id="categorias-name">{{ blog.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block footer_static_js_css %}
+      <script type="text/javascript">
+      $('.about-active').addClass('active-page')
+    </script>
+{% endblock %}

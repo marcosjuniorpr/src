@@ -1,0 +1,1063 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header_static_js_css %}
+	    <style>
+        body{
+          padding: 0px;
+          font-family: monospace;
+        }
+        @media 
+        only screen and (max-width: 760px),
+        (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+          /* Force table to not be like tables anymore */
+
+          #main-client-table{
+            display: block; 
+          }
+          #main-client-thead{
+            display: block; 
+          }
+          #main-client-tbody{
+            display: block; 
+          }
+          #client-single-box{
+            display: block; 
+          }
+          #clent-main-input-fild{
+            display: block; 
+          }
+          #client-sub-box{
+            display: block;
+          }
+          
+          /* Hide table headers (but not display: none;, for accessibility) */
+          #main-client-thead #client-sub-box { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+          }
+          
+          #client-sub-box { border: 1px solid #ccc; }
+          
+          #clent-main-input-fild { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+          }
+          
+          #clent-main-input-fild:before { 
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%; 
+            padding-right: 10px; 
+            white-space: nowrap;
+          }
+          
+          /*
+          Label the data
+          */
+          #clent-main-input-fild:nth-of-type(1):before { content: "type date"; }
+          #clent-main-input-fild:nth-of-type(2):before { content: "type turn"; }
+          #clent-main-input-fild:nth-of-type(3):before { content: "type period"; }
+          #clent-main-input-fild:nth-of-type(4):before { content: "type local sold"; }
+          #clent-main-input-fild:nth-of-type(5):before { content: "type amount sold"; }
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <section id="page-section">
+    	<div class="container">
+    	  <div class="row">
+    	  	 <div class="col-sm-12">
+            <div class="col-sm-6">
+    	  	   <p id="page-title-name">CLIENTES</p>
+            </div> 
+            <div class="col-sm-6" id="page-site-link">
+             <p><span id="home-page-link"><a href="{% url 'main_project:index' %}">Início</a></span><span id="page-bar">/</span><span id="same-page-link">SERVIÇOS</span></p>
+            </div> 
+    	  	</div>  
+    	  </div>
+    	</div>
+    </section><!--       row Section     -->
+
+    <section id="page-article">
+      <div class="container-fluid" id="page-article-width">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-9" id="main-col-section">
+              <div id="imgHolder">
+                 <img border="0" src="{% static 'main_static/img/logo.png' %}" width="auto" height="200px !important">
+              </div> 
+              <div>
+                  <ul id="print-details">
+                      <li><span id="print-name">CLIENT NAME:</span><span>{{ request.user.username }}</span></li>
+                      <li><span id="print-name">NAME OF THE POST:</span><span>My Post</span></li> 
+                      <li><span id="print-name">DATA:</span><span id="print-current-date"></span></li> 
+                      <li><span id="print-name">HORA:</span><span id="print-current-time"></span></li>    
+                  </ul>
+              </div>
+
+              
+
+              <div id="first-waring">
+                  <p>Can't print/save atleast fill up one full row</p>
+              </div>  
+
+              <div id="second-waring">
+                  <p>Can't print/save fill up full row</p>
+              </div>
+
+              <div class="done_save_msg" style="display:none; background: green; padding: 7px; color:white; margin-bottom:11px">
+                  <h5> Congrats! Data Saved and send as email</h5>
+              </div>
+
+              <div class="not_saved_save_msg" style="display:none; background: red; padding: 7px; color:white; margin-bottom:11px">
+                  <h5> Sorry! Having Some system issue. Please try again later</h5>
+              </div>
+
+
+               <table id="main-client-table" class="visible-table">
+                  <thead id="main-client-thead">
+                     <tr id="client-sub-box">
+                        <th scope="col" id="client-single-box">Type date</th>
+                        <th scope="col" id="client-single-box">Type turn</th>
+                        <th scope="col" id="client-single-box">Type period</th>
+                        <th scope="col" id="client-single-box">Type local sold</th>
+                        <th scope="col" id="client-single-box">Type amount sold</th>
+                     </tr>
+                  </thead>
+                  <tbody id="main-client-tbody" class="form-table-body" />
+
+
+                      <tr id="client-sub-box" class="form">
+
+                          <form>
+                            <td id="clent-main-input-fild">
+                               <div id="datetimepicker1" class="input-append date">
+                                  <input data-format="dd/MM/yyyy" type="text" class="add-on sendvalueFild mobile-view date-input" id="type-input-box1"></input>
+                              </div><!--    datetimepicker1    -->
+                            </td>
+                            <td id="clent-main-input-fild">
+                              <div id="" class="">
+                                  <input type="Number" class="sendvalueFild1 mobile-view turn-input" id="type-input-box2" ></input>
+                              </div><!--    datetimepicker2    -->
+                            </td>
+                            <td id="clent-main-input-fild" class="mobile-view">
+                              <div id="select-two-time">
+                                 <span id="first-time">
+                                      <select class="form-control period-from period-from-input time-line-from-1" id="sel1">
+                                        <option value="">From</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                      </select>
+                                 </span>
+                                 <span id="as-id">as</span>
+                                 <span id="first-time">
+                                      <select class="form-control period-to period-to-input time-line-to-1" id="sel2">
+                                        <option value="">To</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                        <option value="12.00 AM">12.00 AM</option>
+                                      </select>
+                                 </span>  
+                              </div><!--    datetimepicker3    -->
+                            </td>
+                            <td id="clent-main-input-fild"><input type="" name="" id="type-input-box13" class="localfild mobile-view local-sold-input" sold"></td>
+                            <td id="clent-main-input-fild">
+                               <span id="dollar-sing">R$</span>
+                               <span>
+                                  
+                                  <input type="number" name="" id="type-input-box14" class="type-amount-sold sendvalueFild1 mobile-view amount-sold-input" >
+                               </span>
+                            </td>
+                          </form>
+                      </tr><!--             TRRRRRRRRRR -->
+
+                      
+                      <tr id="client-sub-box" class="form">
+
+                          <form>
+                            <td id="clent-main-input-fild">
+                               <div id="datetimepicker1" class="input-append date">
+                                  <input data-format="dd/MM/yyyy" type="text" class="add-on sendvalueFild mobile-view date-input" id="type-input-box1"></input>
+                              </div><!--    datetimepicker1    -->
+                            </td>
+                            <td id="clent-main-input-fild">
+                              <div id="" class="">
+                                  <input type="Number" class="sendvalueFild1 mobile-view turn-input" id="type-input-box2" ></input>
+                              </div><!--    datetimepicker2    -->
+                            </td>
+                            <td id="clent-main-input-fild" class="mobile-view">
+                              <div id="select-two-time">
+                                 <span id="first-time">
+                                      <select class="form-control period-from period-from-input time-line-from-2" id="sel1">
+                                        <option value="">From</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                      </select>
+                                 </span>
+                                 <span id="as-id">as</span>
+                                 <span id="first-time">
+                                      <select class="form-control period-to period-to-input time-line-to-2" id="sel2">
+                                        <option value="">To</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                        <option value="12.00 AM">12.00 AM</option>
+                                      </select>
+                                 </span>  
+                              </div><!--    datetimepicker3    -->
+                            </td>
+                            <td id="clent-main-input-fild"><input type="" name="" id="type-input-box13" class="localfild mobile-view local-sold-input" sold"></td>
+                            <td id="clent-main-input-fild">
+                               <span id="dollar-sing">R$</span>
+                               <span>
+                                  
+                                  <input type="number" name="" id="type-input-box14" class="type-amount-sold sendvalueFild1 mobile-view amount-sold-input" >
+                               </span>
+                            </td>
+                          </form>
+                      </tr><!--             TRRRRRRRRRR -->
+
+                      <tr id="client-sub-box" class="form">
+
+                          <form>
+                            <td id="clent-main-input-fild">
+                               <div id="datetimepicker1" class="input-append date">
+                                  <input data-format="dd/MM/yyyy" type="text" class="add-on sendvalueFild mobile-view date-input" id="type-input-box1"></input>
+                              </div><!--    datetimepicker1    -->
+                            </td>
+                            <td id="clent-main-input-fild">
+                              <div id="" class="">
+                                  <input type="Number" class="sendvalueFild1 mobile-view turn-input" id="type-input-box2" ></input>
+                              </div><!--    datetimepicker2    -->
+                            </td>
+                            <td id="clent-main-input-fild" class="mobile-view">
+                              <div id="select-two-time">
+                                 <span id="first-time">
+                                      <select class="form-control period-from period-from-input time-line-from-3" id="sel1">
+                                        <option value="">From</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                      </select>
+                                 </span>
+                                 <span id="as-id">as</span>
+                                 <span id="first-time">
+                                      <select class="form-control period-to period-to-input time-line-to-3" id="sel2">
+                                        <option value="">To</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                        <option value="12.00 AM">12.00 AM</option>
+                                      </select>
+                                 </span>  
+                              </div><!--    datetimepicker3    -->
+                            </td>
+                            <td id="clent-main-input-fild"><input type="" name="" id="type-input-box13" class="localfild mobile-view local-sold-input" sold"></td>
+                            <td id="clent-main-input-fild">
+                               <span id="dollar-sing">R$</span>
+                               <span>
+                                  
+                                  <input type="number" name="" id="type-input-box14" class="type-amount-sold sendvalueFild1 mobile-view amount-sold-input" >
+                               </span>
+                            </td>
+                          </form>
+                      </tr><!--             TRRRRRRRRRR -->
+
+                      <tr id="client-sub-box" class="form">
+
+                          <form>
+                            <td id="clent-main-input-fild">
+                               <div id="datetimepicker1" class="input-append date">
+                                  <input data-format="dd/MM/yyyy" type="text" class="add-on sendvalueFild mobile-view date-input" id="type-input-box1"></input>
+                              </div><!--    datetimepicker1    -->
+                            </td>
+                            <td id="clent-main-input-fild">
+                              <div id="" class="">
+                                  <input type="Number" class="sendvalueFild1 mobile-view turn-input" id="type-input-box2" ></input>
+                              </div><!--    datetimepicker2    -->
+                            </td>
+                            <td id="clent-main-input-fild" class="mobile-view">
+                              <div id="select-two-time">
+                                 <span id="first-time">
+                                      <select class="form-control period-from period-from-input time-line-from-4" id="sel1">
+                                        <option value="">From</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                        
+                                      </select>
+                                 </span>
+                                 <span id="as-id">as</span>
+                                 <span id="first-time">
+                                      <select class="form-control period-to period-to-input time-line-to-4" id="sel2">
+                                        <option value="">To</option>
+                                        <option value="12.00 PM">12.00 AM</option>
+                                        <option value="1.00 AM">1.00 AM</option>
+                                        <option value="2.00 AM">2.00 AM</option>
+                                        <option value="3.00 AM">3.00 AM</option>
+                                        <option value="4.00 AM">4.00 AM</option>
+                                        <option value="5.00 AM">5.00 AM</option>
+                                        <option value="6.00 AM">6.00 AM</option>
+                                        <option value="7.00 AM">7.00 AM</option>
+                                        <option value="8.00 AM">8.00 AM</option>
+                                        <option value="9.00 AM">9.00 AM</option>
+                                        <option value="10.00 AM">10.00 AM</option>
+                                        <option value="11.00 AM">11.00 AM</option>
+                                        <option value="12.00 AM">12.00 PM</option>
+                                        <option value="1.00 PM">1.00 PM</option>
+                                        <option value="2.00 PM">2.00 PM</option>
+                                        <option value="3.00 PM">3.00 PM</option>
+                                        <option value="4.00 PM">4.00 PM</option>
+                                        <option value="5.00 PM">5.00 PM</option>
+                                        <option value="6.00 PM">6.00 PM</option>
+                                        <option value="7.00 PM">7.00 PM</option>
+                                        <option value="8.00 PM">8.00 PM</option>
+                                        <option value="9.00 PM">9.00 PM</option>
+                                        <option value="10.00 PM">10.00 PM</option>
+                                        <option value="11.00 PM">11.00 PM</option>
+                                        <option value="12.00 AM">12.00 AM</option>
+                                      </select>
+                                 </span>  
+                              </div><!--    datetimepicker3    -->
+                            </td>
+                            <td id="clent-main-input-fild"><input type="" name="" id="type-input-box13" class="localfild mobile-view local-sold-input" sold"></td>
+                            <td id="clent-main-input-fild">
+                               <span id="dollar-sing">R$</span>
+                               <span>
+                                  
+                                  <input type="number" name="" id="type-input-box14" class="type-amount-sold sendvalueFild1 mobile-view amount-sold-input" >
+                               </span>
+                            </td>
+                          </form>
+                      </tr><!--             TRRRRRRRRRR -->
+
+                      
+
+
+
+
+                 <!-- <!--  <tr id="client-sub-box">
+                        <td id="clent-main-input-fild">
+                           <div id="datetimepicker4" class="input-append date">
+                              <input data-format="dd/MM/yyyy" type="text" class="add-on sendvalueFild1 mobile-view" id="type-input-box4"></input>
+                          </div><!--    datetimepicker4    -->
+                       <!--  </td>
+                        <td id="clent-main-input-fild">
+                          <div  class="input-append date">
+                              <input type="Number" class="sendvalueFild mobile-view" id="type-input-box5"></input>
+                          </div> --><!--    datetimepicker5    -->
+                        <!-- </td>
+                        <td id="clent-main-input-fild" class="mobile-view">
+                          <div id="select-two-time">
+                             <span id="first-time">
+                                  <select class="form-control" id="sel3">
+                                    <option>Type period</option>
+                                    <option>8.00 AM</option>
+                                    <option>9.00 AM</option>
+                                    <option>10.00 AM</option>
+                                    <option>11.00 AM</option>
+                                  </select>
+                             </span>
+                            <span id="as-id">as</span>
+                             <span id="first-time">
+                                  <select class="form-control" id="sel4">
+                                    <option>Type period</option>
+                                    <option>8.00 AM</option>
+                                    <option>9.00 AM</option>
+                                    <option>10.00 AM</option>
+                                    <option>11.00 AM</option>
+                                  </select>
+                             </span>  
+                          </div> --><!--    datetimepicker6    -->
+                       <!--  </td>
+                        <td id="clent-main-input-fild"><input type="" name="" id="type-input-box15" class="localfild1 mobile-view"></td>
+                        <td id="clent-main-input-fild">
+                           <span id="dollar-sing">$U</span>
+                           <span>
+                              <input type="number" name="" id="type-input-box16" class="sendvalueFild1 mobile-view" >
+                           </span>
+                        </td>
+                  </tr> --><!--             TRRRRRRRRRR -->
+                  </tbody>
+                </table>
+                <div class="col-sm-12" id="final-price-box">
+                    <div class="col-sm-8 col-xs-0">
+                    </div>
+                    <div class="col-sm-2 col-xs-6">
+                        <span id="total-text">TOTAL DE VENDA</span>
+                    </div>
+                    <div class="col-sm-2 col-xs-6">
+                        <span id="final-dollar">R$</span><span id="final-sum">0</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12" id="second-table">
+                   <div class="col-sm-3 col-xs-0"></div>
+                     <div class="col-sm-3 col-xs-4" id="print-now-button1">
+                        <p class="print_report_button">IMPRIMIR</p>
+                      </div>
+                      <div class="col-sm-3 col-xs-4" id="print-now-button1">
+                        <input type="email" class="form-control email_to_send" style="height: 43px;" placeholder="Type Email To Send">
+                      </div>
+
+                      <div class="col-sm-3 col-xs-4" id="print-now-button2">
+                        <p class="save_and_send">SALVAR E ENVIAR</p>
+                      </div>
+                   <div class="col-sm-3 col-xs-6"></div>
+                </div><!--     second tabel -->
+            </div>
+            <div class="col-sm-3" id="categorias-boxes">
+              <p id="categorias-title">Our Recent Blogs</p>
+              <ul id="categorias-list">
+                {% for blog in blogs %}
+                 <li><i class="far fa-hand-point-right"></i><a href="{% url 'main_project:single_blog' blog.id %}" id="categorias-name">{{ blog.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="ppp" class="print_section" style="display: none;">
+	    <div id="imgHolder">
+	                 <img border="0" src="https://image.ibb.co/hKSKa9/logo.png" width="auto" height="50px !important">
+	    </div>
+	    <div>
+	      <ul id="print-details" style="padding-left: 0px; padding-right: 0px;margin-bottom: 30px;">
+	        <li style="list-style: none;"><span id="print-name" style="font-size: 16px; font-weight: 800; color: #333333; padding-right: 10px; font-family: 'Poppins', sans-serif;">CLIENT NAME:</span><span>{{ request.user.username }}</span></li>
+	        <li style="list-style: none;"><span id="print-name" style="font-size: 16px; font-weight: 800; color: #333333; padding-right: 10px; font-family: 'Poppins', sans-serif;">NAME OF THE POST:</span><span>My Post</span></li> 
+	        <li style="list-style: none;"><span id="print-name" style="font-size: 16px; font-weight: 800; color: #333333; padding-right: 10px; font-family: 'Poppins', sans-serif;">DATE:</span><span id="print-current-date1"></span></li> 
+	        <li style="list-style: none;"><span id="print-name" style="font-size: 16px; font-weight: 800; color: #333333; padding-right: 10px; font-family: 'Poppins', sans-serif;">HOUR:</span><span id="print-current-time1"></span></li>    
+	      </ul>
+	    </div>    
+	    <table style="width:100%" class="print_section_table">
+	      <tr style="margin-bottom: 255px">
+	        <th style="text-align: center;">Date</th>
+	        <th style="text-align: center;">Turno</th> 
+	        <th style="text-align: center;">Período</th>
+	        <th style="text-align: center;">Local de Venda</th>
+	        <th style="text-align: center;">Venda Total</th>
+	      </tr>
+        
+ 	    </table>
+      <table style="margin-top: 20px">
+        <tr>
+           <th></th>
+           <th></th> 
+           <th></th>         
+           <th><span style="float: right;margin-left: 200px">TOTAL DE VENDA</span></th> 
+           <th><span style="float: right;margin-left: 30px" id="getvalueFild21"></span></th> 
+        </tr>
+      </table>
+      
+    </section><!--       Tabel data hide     -->
+
+{% endblock %}
+{% block footer_static_js_css %}
+  <script type="text/javascript">
+    $('.clients-active').addClass('active-page')
+  </script>
+  <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+  <script type="text/javascript"
+     src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+  
+   <script type="text/JavaScript">
+
+      var picCount=0; // global
+      var picArray= ["img/client1.png","img/client2.png"]
+      //
+      // gets next picture in array
+      function nextPic()
+      { // check if adding 1 exceeds number of pics in array
+      picCount=(picCount+1<picArray.length)? picCount+1 : 0;
+      // build the img to write to page using the new pic reference
+      var build='<img border="0" src="'+picArray[picCount]+'" width="auto" height="200px !important">\
+      ';
+      //////////////////////////////////////////////////////////////document.getElementById("imgHolder").innerHTML=build;
+      // repeat this after a puse of 2000ms (2sec).
+      setTimeout('nextPic()',2000)
+      }
+
+   </script>
+
+
+   <script type="text/javascript">
+
+  	/******* Algo *******
+
+
+
+  		* Each form has 5 field. Maximum 5 field can be filled up at a time and print
+  		* Atleast 1 field should be filled up fully(all 5 field of it) to print
+  		* Onchange `type period from`, 
+  			* `type period to` select options(related to clicked `type period from`)
+  				will change. And only those hours that is after `type period from` 
+  				hours will be shown and others will be hidden
+
+  		* Onchange `type amount sold`,
+  			* Sum of All 5 fields (`type amount sold` field) values except those that
+  			  has NaN or '' value, will be Will be showing in TOTAL DE VENDA (Below of 
+  			  last form). Also send them on total inside hidden section
+
+  		* Onclick `print report`,
+  			* Will check whether their has any form where one or multiple field of it 
+  			  has value but it also has few fields which are blank ? if false than can
+  			  proceed if not show alert message to fill that form left fields and exit 
+  			  the code. But if all 5 field is blank than okay.
+  			* Will check atleast one full form(all 5 fields) is filled up or not. If not 
+  			  show alert and ask for filling all.
+  			* Check how many form(among 5) are aligable to print(those are eligable that
+  			  has all 5 field filled up ). And append them inside hidden print table.
+  			* Print the hidden section which was made for printing.
+
+
+
+  	******* Algo *******/
+
+    $('.period-from').on('change',function(){
+
+
+        var self = $(this).parent().parent()
+        var val_from = self.find('.period-from option:selected').index()
+        var periodToOptions = self.find('.period-to option')
+        var numberOfPeriodFromOption = self.find('.period-from option')
+        var indexOfPeriodFromSelected = self.find('.period-from option:selected').index()
+
+
+
+        periodToOptions.map(function(id,val){
+
+          if (id <= indexOfPeriodFromSelected){
+            $(val).hide()  
+          }else{
+            $(val).show() 
+          }
+          
+        })
+
+
+    })
+
+     $('.time-line-from-1').on('click',function(){
+        $(".time-line-to-1").val(
+            "..."
+          );
+      })
+
+     $('.time-line-from-2').on('click',function(){
+        $(".time-line-to-2").val(
+            "..."
+          );
+      })
+
+     $('.time-line-from-3').on('click',function(){
+        $(".time-line-to-3").val(
+            "..."
+          );
+      })
+
+     $('.time-line-from-4').on('click',function(){
+        $(".time-line-to-4").val(
+            "..."
+          );
+      })
+
+    /// more to do here
+    // * when select again need to show again hidden options --------- OK
+    // * when select last one show alert last one can't be selected  ----------- OK
+    // * when after selecting from and to again change the from , to needs to be chnage(as already lower time can be selected on first time for to) ------------- OK
+    // * 8-8 am time ----------- OK
+
+    $('.type-amount-sold').keyup(function(){
+
+        var this_val = $(this).val()
+        // console.log(this_val)
+
+        total_price = 0
+        $('.type-amount-sold').map(function(id,value){
+          if (value != '' || value != NaN){
+            this_value = $(value).val()
+            this_value = Number(this_value)
+
+            total_price = total_price + this_value
+          }
+        })
+
+
+        $("#final-sum").text(total_price)
+        $("#getvalueFild21").text(total_price)
+
+    })
+    /// more to do here
+    // * send the total(total_price variable) on below(TOTAL DE VENDA) and also on print section ---------------- OK
+
+
+    // helper function 
+    var form_checker = function(date, turn, period_from, period_to, local_sold, amount_sold){
+        // console.log(date, turn, period_from, period_to, local_sold, amount_sold)
+
+        have_any_blanked_field = false
+        have_any_non_blanked_field = false
+        if(date == '' || turn == '' || period_from == '' || period_to == '' || local_sold == '' || amount_sold == '' ){
+          have_any_blanked_field = true
+        }
+
+        if(date != '' || turn != '' || period_from != '' || period_to != '' || local_sold != '' || amount_sold != '' ){
+          have_any_non_blanked_field = true
+        }
+        
+        if(have_any_blanked_field && have_any_non_blanked_field){
+          return false
+        }else{
+          return true
+        }
+
+    }
+
+    // helper function 
+    var all_field_blank_checker = function(date, turn, period_from, period_to, local_sold, amount_sold){
+        // console.log(date, turn, period_from, period_to, local_sold, amount_sold)
+
+        if(date == '' || turn == '' || period_from == '' || period_to == '' || local_sold == '' || amount_sold == '' ){
+          return true
+        }else{
+          return false
+        }
+
+    }
+
+
+    $('.print_report_button').on('click', function(){
+      $('.not_saved_save_msg').css({ display:"none" });
+      $('.done_save_msg').css({ display:"none" });
+       var form_value = {}
+        can_print = true
+
+        
+        var datefild = $(".date-input").val();
+
+        var turnfild = $(".turn-input").val();
+
+        var fromfild = $(".period-from-input").val();
+
+        var tofild = $(".period-to-input").val();
+
+        var localfild = $(".local-sold-input").val();
+
+        var amountfild = $(".amount-sold-input").val();
+
+        
+      
+        if(datefild == "" &&  turnfild=="" && fromfild=="" && tofild=="" && localfild=="" && amountfild==""){
+          $("#first-waring ").css('display','block')
+        }
+
+
+        ///////////////////////////
+
+
+        $('.form-table-body').find('tr').map(function(index, val){
+
+            here_date = $(val).find('.date-input').val(),
+            here_turn = $(val).find('.turn-input').val(),
+            here_period_from = $(val).find('.period-from-input').val(),
+            here_period_to = $(val).find('.period-to-input').val(),
+            here_local_sold = $(val).find('.local-sold-input').val(),
+            here_amount_sold = $(val).find('.amount-sold-input').val()
+
+  
+            if (form_checker(here_date, here_turn, here_period_from, here_period_to, here_local_sold, here_amount_sold)){
+
+              if (!all_field_blank_checker(here_date, here_turn, here_period_from, here_period_to, here_local_sold, here_amount_sold)){
+                can_print = true
+                form_value['table'+(index+1)] = {
+                    date : here_date,
+                    turn : here_turn,
+                    period_from : here_period_from,
+                    period_to : here_period_to,
+                    local_sold : here_local_sold,
+                    amount_sold : here_amount_sold
+                }
+                $("#second-waring").css('display','none')
+                $("#first-waring").css('display','none')
+              }
+              $(val).css({"background-color":""});  //if in case already it's red(can happen if it's a second try)
+
+            }else{
+              can_print = false
+              $("#first-waring").css('display','none')
+              $("#second-waring").css('display','block')
+              $(val).css({"background-color":"brown"});
+              return;
+            }
+        })
+        if (can_print){
+          $(".print_section_table").html('')   //hide if previously have
+          Object.keys(form_value).forEach(function(key) {
+              // console.log('aita', key, form_value[key]);
+              this_date = form_value[key]['date']
+              this_turn = form_value[key]['turn']
+              this_period_from = form_value[key]['period_from']
+              this_period_to = form_value[key]['period_to']
+              this_local_sold = form_value[key]['local_sold']
+              this_amount_sold = form_value[key]['amount_sold']
+
+             $("#getvalueFild1").map(function(){
+                $(this).html("this_date")
+             })
+             
+             //$("#getvalueFild1").html(this_date)
+             $("#getvalueFild2").html()
+             $("#getvalueFild3").html()
+             $("#getvalueFild4").html()
+             $("#getvalueFild5").html()
+
+
+             $(".print_section_table").append("<tr style='margin-bottom: 255px'>"+
+                "<td style='text-align: center;'><span id='' >"+this_date+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_turn+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_period_from+"-"+this_period_to+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_local_sold+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_amount_sold+"</span></td>"+
+                "</tr>" 
+              )
+
+              
+          });
+           
+           if(this_date !=""){
+            // location.reload();//reload the page
+
+              var content = $("#ppp").html();
+            var mywindow = window.open('', 'Print', 'height=600,width=auto');
+
+            mywindow.document.write(content);
+
+            mywindow.document.close();
+            mywindow.focus();
+            mywindow.print();
+            mywindow.close();
+            return true;
+           }
+            
+
+        }else{
+          console.log('cannot print')
+        }    
+    })
+
+
+    $('.save_and_send').on('click', function(){
+        $('.not_saved_save_msg').css({ display:"none" });
+        $('.done_save_msg').css({ display:"none" });
+    	 var form_value = {}
+        can_print = true
+
+        
+        var datefild = $(".date-input").val();
+
+        var turnfild = $(".turn-input").val();
+
+        var fromfild = $(".period-from-input").val();
+
+        var tofild = $(".period-to-input").val();
+
+        var localfild = $(".local-sold-input").val();
+
+        var amountfild = $(".amount-sold-input").val();
+
+        
+      
+        if(datefild == "" &&  turnfild=="" && fromfild=="" && tofild=="" && localfild=="" && amountfild==""){
+          $("#first-waring ").css('display','block')
+        }
+
+
+        ///////////////////////////
+
+
+      	$('.form-table-body').find('tr').map(function(index, val){
+
+            here_date = $(val).find('.date-input').val(),
+            here_turn = $(val).find('.turn-input').val(),
+            here_period_from = $(val).find('.period-from-input').val(),
+            here_period_to = $(val).find('.period-to-input').val(),
+            here_local_sold = $(val).find('.local-sold-input').val(),
+            here_amount_sold = $(val).find('.amount-sold-input').val()
+
+	
+            if (form_checker(here_date, here_turn, here_period_from, here_period_to, here_local_sold, here_amount_sold)){
+
+              if (!all_field_blank_checker(here_date, here_turn, here_period_from, here_period_to, here_local_sold, here_amount_sold)){
+                can_print = true
+                form_value['table'+(index+1)] = {
+                    date : here_date,
+                    turn : here_turn,
+                    period_from : here_period_from,
+                    period_to : here_period_to,
+                    local_sold : here_local_sold,
+                    amount_sold : here_amount_sold
+                }
+                $("#second-waring").css('display','none')
+                $("#first-waring").css('display','none')
+              }
+              $(val).css({"background-color":""});  //if in case already it's red(can happen if it's a second try)
+
+            }else{
+              can_print = false
+              $("#first-waring").css('display','none')
+              $("#second-waring").css('display','block')
+              $(val).css({"background-color":"brown"});
+              return;
+            }
+        })
+        if (can_print){
+          $(".print_section_table").html('')   //hide if previously have
+          Object.keys(form_value).forEach(function(key) {
+              // console.log('aita', key, form_value[key]);
+              this_date = form_value[key]['date']
+              this_turn = form_value[key]['turn']
+              this_period_from = form_value[key]['period_from']
+              this_period_to = form_value[key]['period_to']
+              this_local_sold = form_value[key]['local_sold']
+              this_amount_sold = form_value[key]['amount_sold']
+
+             $("#getvalueFild1").map(function(){
+                $(this).html("this_date")
+             })
+             
+             //$("#getvalueFild1").html(this_date)
+             $("#getvalueFild2").html()
+             $("#getvalueFild3").html()
+             $("#getvalueFild4").html()
+             $("#getvalueFild5").html()
+
+
+             $(".print_section_table").append("<tr style='margin-bottom: 255px'>"+
+                "<td style='text-align: center;'><span id='' >"+this_date+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_turn+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_period_from+"-"+this_period_to+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_local_sold+"</span></td>"+
+                "<td style='text-align: center;'><span id='' >"+this_amount_sold+"</span></td>"+
+                "</tr>" 
+              )
+
+              
+          });
+           
+           if(this_date !=""){
+            // location.reload();//reload the page
+
+              $('body').css("filter","blur(3px)");
+              var html_content = $("#ppp").html();
+              var email_to_send = $('.email_to_send').val()
+              data = {
+                save_and_send:'yes',
+                html_content:html_content,
+                email_to_send:email_to_send,
+                value:form_value
+              }
+
+              $.ajax({
+                type:"POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                url:{% url 'main_project:client' %},
+                data: JSON.stringify(data),
+                contentType : "application/json; charset=utf-8",
+                success:function(data){
+                  $('body').css("filter","blur(0px)");
+                  if (data=='saved'){
+                    $('.done_save_msg').css({ display:"" });
+                    $('.not_saved_save_msg').css({ display:"none" });
+                    console.log('done')
+                  }
+                  else{
+                    $('.not_saved_save_msg').css({ display:"" });
+                    $('.done_save_msg').css({ display:"none" });
+                    console.log('error')
+                  }
+                },
+                error:function(){
+                  $('body').css("filter","blur(0px)");
+                  $('.not_saved_save_msg').css({ display:"" });
+                  $('.done_save_msg').css({ display:"none" });
+                  console.log('error')
+                }
+
+              })
+           
+           }
+            
+
+        }else{
+          console.log('cannot print')
+        }
+
+    })
+
+   </script>
+{% endblock %}
+
